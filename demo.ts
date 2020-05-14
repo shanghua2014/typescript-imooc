@@ -1,31 +1,41 @@
-// 1、类的访问类型：public private protected
-
-// 2、constructor 构造函数
+// getter 和 setter
 // class Person {
-// 	// 传统写法
-// 	// public name: string;
-// 	// constructor(name: string) {
-// 	// 	this.name = name;
-// 	// }
+// 	constructor(private _name: string) {}
 
-// 	// 简化写法
-// 	constructor(public name: string) {}
+// 	// 通过 get 来模拟 name 属性
+// 	// 外部调用时看起来像调了 name 属性，其实调用的是 name() 方法
+// 	get name() {
+// 		return this._name + ', lee';
+// 	}
+// 	set name(name: string) {
+//         const realName = name.split('_')[0]
+// 		this._name = realName;
+// 	}
 // }
+
 // const person = new Person('dell');
 // console.log(person.name);
+// person.name = 'dell_li';
+// console.log(person.name);
 
-class Person {
-	// constructor(public name: string) {}
-}
+// 单例
+class Demo {
+	private static instance: Demo;
+	// 1、私有构造，不能在外部通过 new 来实例化类
+	private constructor(public name: string) {}
 
-// 如果子类有 constructor 构造函数
-// 那么，不管父类是否有 constructor 构造，都必须调用 super 方法
-class Teacher extends Person {
-	constructor(public age: number) {
-        // super('dell');
-        super();
+	// 2、静态方法：直接挂到类上边，而不是类的实例上，方便外部调用
+	static getInstance(name: string) {
+		// 单例特性：只实例化一次，所以 name 值是第一次传入的值
+		if (!this.instance) {
+			this.instance = new Demo(name);
+		}
+		return this.instance;
 	}
 }
-const teacher = new Teacher(18);
-// console.log(teacher.name);
-console.log(teacher.age);
+
+const demo1 = Demo.getInstance('zhao');
+const demo2 = Demo.getInstance('shanghua');
+console.log(demo1 == demo2);
+console.log(demo1.name);
+console.log(demo2.name);
