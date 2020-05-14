@@ -1,41 +1,60 @@
-// 数组
-const arr: (number | string)[] = [1, 2, '3'];
-const stringArr: string[] = ['a'];
-const undefinedArr: undefined[] = [undefined];
+// 类型别名type 与 interface区别不大，interface不能直接代码基础类型
+// 优先使用interface
+// type Person1 = {
+// 	name: string;
+// };
 
-// 对象数组类型，看起来有点难懂，看下边类型别名
-const objectArr: { name: string; age: number }[] = [
-	{
-		name: 'zhao',
-		age: 18,
-	},
-];
-// 类型别名：type class 数据结构正确，都能作为别名使用
-type User = { name: string; age: number };
-class Teacher {
+// 有通用的类型集合，可以用interface来定义
+interface Person {
 	name: string;
-	age: number;
+	// readonly name: 'male'; // readonly 表示只读
+	age?: number; // ? 表示可有可无
+	[propName: string]: any; // 允许传参有其他任意类型
+	say(): string;
 }
-// const objArr: User[] = [
-// 	{
-// 		name: 'zhao',
-// 		age: 18,
-// 	},
-// ];
-const objArr: Teacher[] = [
-	// new Teacher(), // 实例可有可无
-	{
-		name: 'zhao',
-		age: 18,
-	},
-];
 
-// 元组 tuple
-const teacherInfo: [string, string, number] = ['dell', 'male', 18];
-// 已知数组元素类型与元素个组，不会发生改变，这时使用元组
-// 比如：csv表格
-const teacherList: [string, string, number][] = [
-	['dell', 'male', 18],
-	['sun', 'male', 18],
-	['jeny', 'male', 18],
-];
+// 接口继承接口
+interface Teacher extends Person {
+	teach(): string;
+}
+
+// 函数类型接口
+interface sayHi {
+	(word: string): string;
+}
+
+// const getPersonName = (person: { name: string }): void => {
+const getPersonName = (person: Person): void => {
+	console.log(person.name);
+};
+// const setPersonName = (person: { name: string }, name): void => {
+const setPersonName = (person: Teacher, name): void => {
+	person.name = name;
+};
+
+const person2 = {
+	name: 'dell',
+	sex: 'male',
+	say() {
+		return 'hello';
+	},
+	teach() {
+		return 'teach';
+	}
+};
+
+getPersonName(person2);
+setPersonName(person2, 'lee');
+
+// 类实现接口，类里必须定义接口里的属性和方法
+class User implements Person {
+	name: 'dell';
+	sex: 'male';
+	say() {
+		return 'hello';
+	}
+}
+
+const say: sayHi = (word: string) => {
+	return word;
+};
