@@ -1,0 +1,26 @@
+{
+	"name": "typescript-imooc",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "ts-node ./src/crowller.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/shanghua2014/typescript-imooc.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/shanghua2014/typescript-imooc/issues"
+	},
+	"homepage": "https://github.com/shanghua2014/typescript-imooc#readme",
+	"devDependencies": {
+		"@types/superagent": "^4.1.7",
+		"superagent": "^5.2.2",
+		"ts-node": "^8.10.1",
+		"typescript": "^3.9.2"
+	}
+}
