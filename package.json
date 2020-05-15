@@ -18,7 +18,9 @@
 	},
 	"homepage": "https://github.com/shanghua2014/typescript-imooc#readme",
 	"devDependencies": {
+		"@types/cheerio": "^0.22.18",
 		"@types/superagent": "^4.1.7",
+		"cheerio": "^1.0.0-rc.3",
 		"superagent": "^5.2.2",
 		"ts-node": "^8.10.1",
 		"typescript": "^3.9.2"
