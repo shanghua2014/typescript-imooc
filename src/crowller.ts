@@ -1,67 +1,46 @@
 // ts直接引入js，无法识别js文件，需要 .d.ts 的翻译文件
 import superagent from 'superagent';
-import cheerio from 'cheerio';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
+// import DellAnalyzer from './dellAnalyzer';
+import LeeAnalyzer from './leeAnalyzer';
 
-interface Course {
-	title: string;
-	count: number;
-}
-interface CourseResult {
-	time: number;
-	data: Course[];
-}
-interface Content {
-	[propName: number]: Course[];
+export default interface Analyzer {
+	analyze: (html: string, filePath: string) => string;
 }
 
 class Crowller {
-	private secret = 'x3b174jsx';
-	private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`;
-
-	getCourseInfo(html: string) {
-		const $ = cheerio.load(html);
-		const courseInfos: Course[] = [];
-
-		$('.course-item').map((index, element) => {
-			const descs = $(element).find('.course-desc');
-			const title = descs.eq(0).text();
-			const count = parseInt(descs.eq(1).text().split('：')[1]);
-			courseInfos.push({
-				title,
-				count
-			});
-		});
-		return {
-			time: new Date().getTime(),
-			data: courseInfos
-		};
-	}
+	private filePath = path.resolve(__dirname, '../data/course.json');
 
 	async getRawHtml() {
 		const result = await superagent.get(this.url);
 		return result.text;
 	}
-	generateJsonContent(courseInfo: CourseResult) {
-		const filePath = path.resolve(__dirname, '../data/course.json');
-		let fileContent: Content = {};
-		if (fs.existsSync(filePath)) {
-			fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-		}
-		fileContent[courseInfo.time] = courseInfo.data;
-		return fileContent;
+
+	writeFile(content: string) {
+		fs.writeFileSync(this.filePath, content);
 	}
+
 	async initSpiderProcess() {
+		// 获取页面内容
 		const html = await this.getRawHtml();
-		const courseInfo = this.getCourseInfo(html);
-		const fileContent = this.generateJsonContent(courseInfo);
-		const filePath = path.resolve(__dirname, '../data/course.json');
-		fs.writeFileSync(filePath, JSON.stringify(fileContent));
+
+		// 获取html元素
+		// const courseInfo = this.getCourseInfo(html);
+		// 保存数据
+		// const fileContent = this.generateJsonContent(courseInfo);
+
+		// 处理页面内容
+		const fileContent = analyze.analyze(html, this.filePath);
+		this.writeFile(fileContent);
 	}
-	constructor() {
+	constructor(private url: string, private analyze: Analyzer) {
 		this.initSpiderProcess();
 	}
 }
+const secret = 'x3b174jsx';
+const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
 
-const crowller = new Crowller();
+// const analyze = new DellAnalyzer();
+const analyze = new LeeAnalyzer();
+new Crowller(url, analyze);
