@@ -88,4 +88,4 @@ var secret = 'x3b174jsx';
 var url = "http://www.dell-lee.com/typescript/demo.html?secret=" + secret;
 var analyze = dellAnalyzer_1.default.getInstance();
 new Crowller(url, analyze);
-console.log(111);
+var abc;
