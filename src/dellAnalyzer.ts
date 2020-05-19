@@ -16,6 +16,16 @@ interface Content {
 
 // 继承 Analyzer是为了规定类里必有一个 analyze 方法
 export default class DellAnalyzer implements Analyzer {
+	private static instance: DellAnalyzer;
+
+	// 单例
+	static getInstance() {
+		if (!DellAnalyzer.instance) {
+			DellAnalyzer.instance = new DellAnalyzer();
+		}
+		return DellAnalyzer.instance;
+	}
+
 	private getCourseInfo(html: string) {
 		const $ = cheerio.load(html);
 		const courseInfos: Course[] = [];
