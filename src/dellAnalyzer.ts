@@ -31,6 +31,7 @@ export default class DellAnalyzer implements Analyzer {
 		const courseInfos: Course[] = [];
 
 		$('.course-item').map((index, element) => {
+			console.log(index)
 			const descs = $(element).find('.course-desc');
 			const title = descs.eq(0).text();
 			const count = parseInt(descs.eq(1).text().split('：')[1]);

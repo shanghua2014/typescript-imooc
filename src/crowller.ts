@@ -33,7 +33,7 @@ class Crowller {
 		const fileContent = analyze.analyze(html, this.filePath);
 		this.writeFile(fileContent);
 	}
-	constructor(private url: string, private analyze: Analyzer) {
+	constructor(private url: string) {
 		this.initSpiderProcess();
 	}
 }
@@ -41,6 +41,4 @@ const secret = 'x3b174jsx';
 const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
 
 const analyze = DellAnalyzer.getInstance();
-new Crowller(url, analyze);
-
-const abc:string;
+new Crowller(url);
