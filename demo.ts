@@ -1,31 +1,10 @@
-enum Status {
-	OFFLINE,
-	ONLINE,
-	DELETE
+// 泛型：规定函数传参，类型保持一致
+function test<ABC>(frist: ABC, second: ABC) {
+	return `${frist}-${second}`;
 }
-
-// const Status = {
-// 	OFFLINE: 0,
-// 	ONLINE: 1,
-// 	DELETE: 2
-// };
-
-function getResult(status) {
-	let result = '';
-	switch (status) {
-		case 0:
-			result = 'offline';
-			break;
-		case 1:
-			result = 'online';
-			break;
-		case 2:
-			result = 'delete';
-			break;
-	}
-	return result;
+// function map<ABC>(arg: ABC[]) {
+function map<ABC>(arg: Array<ABC>) {
+	return arg;
 }
-let res = getResult(1);
-let res2 = getResult(Status.DELETE);
-console.log(res);
-console.log(res2);
+test<number>(1, 3);
+map([1, 2, 3]);
